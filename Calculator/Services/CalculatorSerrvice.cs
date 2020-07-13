@@ -7,7 +7,7 @@ namespace Calculator.Services
 {
     public class CalculatorSerrvice : ICalculatorService
     {
-        public double Calculate(string expression)
+        public float Calculate(string expression)
         {
             var rpn = ParseToRPN(expression);
             return CalculateRPNExpression(rpn);
@@ -68,9 +68,9 @@ namespace Calculator.Services
             return outputQueue;
         }
 
-        private static double CalculateRPNExpression(Queue<TokenBase> expression)
+        private static float CalculateRPNExpression(Queue<TokenBase> expression)
         {
-            var tempStack = new Stack<double>();
+            var tempStack = new Stack<float>();
             while (expression.Count != 0)
             {
                 var token = expression.Dequeue();

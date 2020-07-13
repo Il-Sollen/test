@@ -4,19 +4,19 @@ namespace Calculator.Models
 {
     public abstract class TokenBase
     {
-        public abstract double Calc(double x, double y);
+        public abstract float Calc(float x, float y);
 
         public int Weight { get; protected set; }
     }
 
     public class Number : TokenBase
     {
-        public double Value { get; private set; }
+        public float Value { get; private set; }
         public Number(string number)
         {
-            if (string.IsNullOrEmpty(number) || !Double.TryParse(number, out var _value))
+            if (string.IsNullOrEmpty(number) || !float.TryParse(number, out var _value))
             {
-                throw new ArgumentException("The argument must be of type double", nameof(number));
+                throw new ArgumentException("The argument must be of type Single", nameof(number));
             }
 
             Value = _value;
@@ -24,7 +24,7 @@ namespace Calculator.Models
             Weight = 3;
         }
 
-        public override double Calc(double x, double y) => throw new NotImplementedException();
+        public override float Calc(float x, float y) => throw new NotImplementedException();
     }
 
     public class Addition : TokenBase
@@ -33,7 +33,7 @@ namespace Calculator.Models
         {
             Weight = 1;
         }
-        public override double Calc(double x, double y) => x + y;
+        public override float Calc(float x, float y) => x + y;
     }
 
     public class Subtraction : TokenBase
@@ -42,7 +42,7 @@ namespace Calculator.Models
         {
             Weight = 1;
         }
-        public override double Calc(double x, double y) => x - y;
+        public override float Calc(float x, float y) => x - y;
     }
 
     public class Multiplication : TokenBase
@@ -51,7 +51,7 @@ namespace Calculator.Models
         {
             Weight = 2;
         }
-        public override double Calc(double x, double y) => x * y;
+        public override float Calc(float x, float y) => x * y;
     }
 
     public class Division : TokenBase
@@ -60,7 +60,7 @@ namespace Calculator.Models
         {
             Weight = 2;
         }
-        public override double Calc(double x, double y)
+        public override float Calc(float x, float y)
         {
             if (y == 0)
                 throw new DivideByZeroException();
@@ -75,7 +75,7 @@ namespace Calculator.Models
         {
             Weight = 0;
         }
-        public override double Calc(double x, double y) => throw new NotImplementedException();
+        public override float Calc(float x, float y) => throw new NotImplementedException();
     }
 
     public class CloseParenthesis : TokenBase
@@ -84,6 +84,6 @@ namespace Calculator.Models
         {
             Weight = 0;
         }
-        public override double Calc(double x, double y) => throw new NotImplementedException();
+        public override float Calc(float x, float y) => throw new NotImplementedException();
     }
 }

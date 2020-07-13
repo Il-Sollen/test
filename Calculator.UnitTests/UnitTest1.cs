@@ -40,7 +40,7 @@ namespace Calculator.UnitTests
             new object[] { "1+2+3+4+5+6+7+8+9", 45 },
             new object[] { "38-20-9", 9 },
             new object[] { "8*3*7", 168 },
-            new object[] { "102/2/5", 10.2 },
+            new object[] { "102/2/5", 10.2f },
             new object[] { "3+9-6", 6 },
             new object[] { "7+5*3", 22 },
             new object[] { "7*(5+9)+9", 107 },
