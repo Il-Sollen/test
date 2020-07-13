@@ -16,11 +16,18 @@ namespace Calculator.UnitTests
         }
 
         [Test]
-        [TestCaseSource("ExpressionsSuccess")]
+        [TestCaseSource("ExpressionsCorrect")]
         public void ExpressionCalculate_Success(string expression, double expectedResult)
         {
             var actualResult = calculatorService.Calculate(expression);
             Assert.AreEqual(expectedResult, actualResult);
+        }
+
+        [Test]
+        [TestCaseSource("ExpressionsIncorrect")]
+        public void ExpressionCalculate_Success(string expression)
+        {
+            Assert.Catch<IncorrectExpressionException>(() => calculatorService.Calculate(expression));
         }
 
         [Test]
@@ -30,17 +37,23 @@ namespace Calculator.UnitTests
         {
             Assert.Catch<DivideByZeroException>(() => calculatorService.Calculate(expression));  
         }
-        //Exception($"Unknown operation: {operation}")
+
         [Test]
         [TestCase("(3+x)/(8+9)")]
         [TestCase("4y+8")]
-        [TestCase("4/356 + a")]
+        [TestCase("4/356+a+9")]
         public void ExpressionCalculate_UnknownOperationException(string expression)
         {
             Assert.Catch<UnknownOperationException>(() => calculatorService.Calculate(expression));
         }
 
-        static object[] ExpressionsSuccess =
+        [Test]
+        public void ExpressionCalculate_NullOrEmptyExpressionException()
+        {
+            Assert.Catch<ArgumentNullException>(() => calculatorService.Calculate(string.Empty));
+        }
+
+        static object[] ExpressionsCorrect =
         {
             new object[] { "2+ 3", 5 },
             new object[] { "6-3", 3 },
@@ -55,6 +68,14 @@ namespace Calculator.UnitTests
             new object[] { "7+5* 3", 22 },
             new object[] { "7*(5+9)+9", 107 },
             new object[] { "(5+6)/(7+9)*8", 5.5 }
+        };
+
+        static object[] ExpressionsIncorrect =
+        {
+            new object[] { "+3+5"},
+            new object[] { "(8*9+7/3"},
+            new object[] { "85/2-8+"},
+            new object[] { "52+69/85)+96*8"},
         };
     }
 }

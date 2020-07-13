@@ -3,6 +3,7 @@ using Calculator.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text.RegularExpressions;
 
 namespace Calculator.Services
 {
@@ -10,6 +11,14 @@ namespace Calculator.Services
     {
         public float Calculate(string expression)
         {
+            if (string.IsNullOrEmpty(expression))
+                throw new ArgumentNullException(nameof(expression));
+
+            expression = expression.Replace(" ", string.Empty);
+
+            if (!IsRightExpression(expression))
+                throw new IncorrectExpressionException();
+
             var rpn = ParseToRPN(expression);
             return CalculateRPNExpression(rpn);
         }
@@ -89,6 +98,13 @@ namespace Calculator.Services
             }
 
             return tempStack.Peek();
+        }
+
+        private static bool IsRightExpression(string expression)
+        {
+            return expression.Count(c => c == '(') == expression.Count(c => c == ')') &&
+                Regex.IsMatch(expression, @"^\d+|^\(") && // expression begins with a digit
+                Regex.IsMatch(expression, @"\d$|\)$");    // expression ends with a digit
         }
 
         private static TokenBase ParseOperation(char operation) => operation switch
