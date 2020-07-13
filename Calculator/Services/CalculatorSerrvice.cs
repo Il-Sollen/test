@@ -1,4 +1,5 @@
-﻿using Calculator.Models;
+﻿using Calculator.Exceptions;
+using Calculator.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -98,7 +99,7 @@ namespace Calculator.Services
             '/' => new Division(),
             '(' => new OpenParenthesis(),
             ')' => new CloseParenthesis(),
-            _ => throw new Exception($"Unknown operation: {operation}"),
+            _ => throw new UnknownOperationException(operation)
         };
     }
 }
