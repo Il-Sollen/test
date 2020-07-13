@@ -13,7 +13,6 @@ namespace Calculator.Services
             return CalculateRPNExpression(rpn);
         }
 
-
         private static Queue<TokenBase> ParseToRPN(string input)
         {
             var outputQueue = new Queue<TokenBase>();
