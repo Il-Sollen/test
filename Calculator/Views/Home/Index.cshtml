@@ -1,8 +1,15 @@
-﻿@{
+﻿@model float
+@{
     ViewData["Title"] = "Home Page";
 }
 
-<div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://docs.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
-</div>
+    <div class="text-center">
+        
+
+    <form method="post" asp-controller="Home" asp-action="Index">
+        <input type="text" size="30" name="expression" placeholder="Enter expression">
+        <input type="submit" value="Calculate">
+    </form>
+        <span>Result:</span>
+        <div id="result">@Model</div>
+    </div>
