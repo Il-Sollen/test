@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 
 namespace Calculator.Services
@@ -9,31 +10,18 @@ namespace Calculator.Services
     {
         public double Calculate(string expression)
         {
-            if (expression.Contains('+', StringComparison.InvariantCultureIgnoreCase))
-            {
-                var operands = expression.Split('+');
-                return double.Parse(operands[0]) + double.Parse(operands[1]);
-            }
+            var matches = Regex.Match(expression, @"(\d+)([-+*\/]+|[-+*])(\d+)");
 
-            if (expression.Contains('-', StringComparison.InvariantCultureIgnoreCase))
-            {
-                var operands = expression.Split('-');
-                return double.Parse(operands[0]) - double.Parse(operands[1]);
-            }
+            var op = matches.Groups[2].Value;
 
-            if (expression.Contains('*', StringComparison.InvariantCultureIgnoreCase))
+            return op switch
             {
-                var operands = expression.Split('*');
-                return double.Parse(operands[0]) * double.Parse(operands[1]);
-            }
-
-            if (expression.Contains('/', StringComparison.InvariantCultureIgnoreCase))
-            {
-                var operands = expression.Split('/');
-                return double.Parse(operands[0]) / double.Parse(operands[1]);
-            }
-
-            return 0;
+                "+" => double.Parse(matches.Groups[1].Value) + double.Parse(matches.Groups[3].Value),
+                "-" => double.Parse(matches.Groups[1].Value) - double.Parse(matches.Groups[3].Value),
+                "*" => double.Parse(matches.Groups[1].Value) * double.Parse(matches.Groups[3].Value),
+                "/" => double.Parse(matches.Groups[1].Value) / double.Parse(matches.Groups[3].Value),
+                _ => 0,
+            };
         }
     }
 }
