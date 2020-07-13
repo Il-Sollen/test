@@ -2,8 +2,6 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text.RegularExpressions;
-using System.Threading.Tasks;
 
 namespace Calculator.Services
 {
@@ -11,55 +9,9 @@ namespace Calculator.Services
     {
         public double Calculate(string expression)
         {
-            var operation = Regex.Match(expression, @"[-+*\/]").Value;
-
-            var operands = expression.Split(operation);
-
-            return operation switch
-            {
-                "+" => Addition(operands),
-                "-" => Subtraction(operands),
-                "*" => Multiplication(operands),
-                "/" => Division(operands),
-                _ => 0,
-            };
+            var rpn = ParseToRPN(expression);
+            return CalculateRPNExpression(rpn);
         }
-
-        private static double Addition(string[] operands) => operands.Sum(op => double.Parse(op));
-
-        private static double Subtraction(string[] operands)
-        {
-            double result = double.Parse(operands[0]);
-            for (int i = 1; i < operands.Length; i++)
-            {
-                result -= double.Parse(operands[i]);
-            }
-
-            return result;
-        }
-
-        private static double Multiplication(string[] operands)
-        {
-            double result = double.Parse(operands[0]);
-            for (int i = 1; i < operands.Length; i++)
-            {
-                result *= double.Parse(operands[i]);
-            }
-
-            return result;
-        }
-
-        private static double Division(string[] operands)
-        {
-            double result = double.Parse(operands[0]);
-            for (int i = 1; i < operands.Length; i++)
-            {
-                result /= double.Parse(operands[i]);
-            }
-
-            return result;
-        }
-
 
 
         private static Queue<TokenBase> ParseToRPN(string input)
@@ -117,22 +69,22 @@ namespace Calculator.Services
             return outputQueue;
         }
 
-        private static double CalculateRPNExpression(Queue<TokenBase> stack)
+        private static double CalculateRPNExpression(Queue<TokenBase> expression)
         {
-            var tempStack = new Queue<double>();
-            while (stack.Count != 0)
+            var tempStack = new Stack<double>();
+            while (expression.Count != 0)
             {
-                var token = stack.Dequeue();
+                var token = expression.Dequeue();
 
                 if (token is Number t)
                 {
-                    tempStack.Enqueue(t.Value);
+                    tempStack.Push(t.Value);
                 }
                 else
                 {
-                    var a = tempStack.Dequeue();
-                    var b = tempStack.Dequeue();
-                    tempStack.Enqueue(token.Calc(a, b));
+                    var a = tempStack.Pop();
+                    var b = tempStack.Pop();
+                    tempStack.Push(token.Calc(b, a));
                 }
             }
 
