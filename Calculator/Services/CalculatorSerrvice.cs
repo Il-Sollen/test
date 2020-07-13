@@ -9,7 +9,31 @@ namespace Calculator.Services
     {
         public double Calculate(string expression)
         {
-            throw new NotImplementedException();
+            if (expression.Contains('+', StringComparison.InvariantCultureIgnoreCase))
+            {
+                var operands = expression.Split('+');
+                return double.Parse(operands[0]) + double.Parse(operands[1]);
+            }
+
+            if (expression.Contains('-', StringComparison.InvariantCultureIgnoreCase))
+            {
+                var operands = expression.Split('-');
+                return double.Parse(operands[0]) - double.Parse(operands[1]);
+            }
+
+            if (expression.Contains('*', StringComparison.InvariantCultureIgnoreCase))
+            {
+                var operands = expression.Split('*');
+                return double.Parse(operands[0]) * double.Parse(operands[1]);
+            }
+
+            if (expression.Contains('/', StringComparison.InvariantCultureIgnoreCase))
+            {
+                var operands = expression.Split('/');
+                return double.Parse(operands[0]) / double.Parse(operands[1]);
+            }
+
+            return 0;
         }
     }
 }
