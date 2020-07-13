@@ -42,8 +42,8 @@ namespace Calculator.UnitTests
         {
             new object[] { "3+9-6", 6 },
             new object[] { "7+5*3", 22 },
-            new object[] { "7*(5+9)+9", 1107 },
-            new object[] { "(5+6)/(7+9)*8", 0.0859375 }
+            new object[] { "7*(5+9)+9", 107 },
+            new object[] { "(5+6)/(7+9)*8", 5.5 }
         };
 
         static object[] UnlimitedOperandsExpressionsSuccess =
