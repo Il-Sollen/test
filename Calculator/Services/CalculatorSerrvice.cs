@@ -7,8 +7,10 @@ using System.Text.RegularExpressions;
 
 namespace Calculator.Services
 {
+    ///<inheritdoc/>
     public class CalculatorSerrvice : ICalculatorService
     {
+        ///<inheritdoc/>
         public float Calculate(string expression)
         {
             if (string.IsNullOrEmpty(expression))
@@ -41,7 +43,7 @@ namespace Calculator.Services
                             break;
                     }
 
-                    outputQueue.Enqueue(new Number(number));
+                    outputQueue.Enqueue(new Digit(number));
                     i--;
                 }
                 else
@@ -85,7 +87,7 @@ namespace Calculator.Services
             {
                 var token = expression.Dequeue();
 
-                if (token is Number t)
+                if (token is Digit t)
                 {
                     tempStack.Push(t.Value);
                 }
