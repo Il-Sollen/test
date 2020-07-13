@@ -1,3 +1,5 @@
 /Calculator/obj
 /Calculator/bin
 /.vs
+/Calculator.UnitTests/obj
+/Calculator.UnitTests/bin
